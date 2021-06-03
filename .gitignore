@@ -1,4 +1,5 @@
 logs/
+logs_ex/
 node_modules/
 # Logs
 logs
