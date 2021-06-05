@@ -138,6 +138,7 @@ router.use(function (req, res, next) {
                 res.end(String(err));
                 return;
             }
+            console.log(files)
             let file = files.file1
             console.log(path.join(form.uploadDir, file.name))
             if (file) fs.promises.rename(file.path, path.join(form.uploadDir, file.name));

@@ -161,7 +161,7 @@ async function asyncStormShieldCall() {
     return "finish";
 }
 //Main Function
-//asyncStormShieldCall();
+
 
 //Sub Xml2CSV
 class WG {
@@ -209,8 +209,9 @@ async function asyncPutLog2DBCall() {
         for (let f of files) {
             if (f.endsWith(".xml") && f.startsWith("stormshield")) {
                 let fn = path.join(log_dir, f)
-                let temp_ = fs.readFileSync(fn, 'utf8');
-                let outline = ST_WG.Xml2Csv(temp_, fn)
+                let temp_ = fs.readFileSync(fn, 'utf8'); //readFrom XML
+                let outline = ST_WG.Xml2Csv(temp_, fn);  //Write to CSV 
+                //Update to WebSiteApi
                 for (let key in outline) {
                     let stime = outline[key][0]
                     let etime = outline[key][0].replace(":00:00", ":30:00")
@@ -227,4 +228,8 @@ async function asyncPutLog2DBCall() {
         }
     });
 }
-asyncPutLog2DBCall()
+//asyncStormShieldCall();
+//asyncPutLog2DBCall()
+exports.PutLog2DBCall=asyncPutLog2DBCall;
+exports.StormShieldCall=asyncStormShieldCall
+

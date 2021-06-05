@@ -15,13 +15,15 @@ app.disable('etag');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.get('/', (req, res) => {
-	res.redirect("/upfile")
+	res.redirect("/upfile/")
 });
 app.use(routes);
 app.use('/upfile', require('./routes/upfile/api'));
 
-app.use(function (req, res) { WebRouter(req, res); });
+//app.use(function (req, res) { WebRouter(req, res); });
  
 app.listen(port, () => {
 	console.log(`Example app listening at http://localhost:${port}`)
 })
+
+
