@@ -1,10 +1,10 @@
 let utils=require('./es_stormshield_log')
-
+const { exec, spawn, fork } = require('child_process');
 const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: 'OHAI> '
+  prompt: 'eschool> '
 });
 
 rl.prompt();
@@ -20,9 +20,21 @@ rl.on('line', (line) => {
       console.log('put log!');
       utils.PutLog2DBCall();
      break;
+
+    case 'runapp':
+      console.log('run app!');
+      const n = fork(`${__dirname}/app.js`);
+      n.on('message', (m) => {
+        console.log('PARENT got message:', m);
+      });
+      // Causes the child to print: CHILD got message: { hello: 'world' }
+      //n.send({ hello: 'world' });
+      
+    break;
+
   
-    case 'hello':
-      console.log('world!');
+    case 'help':
+      console.log('pull log; put log');
       break;
     default:
       console.log(`Say what? I might have heard '${line.trim()}'`);

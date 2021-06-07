@@ -43,6 +43,14 @@ req.on('error', function(err) {
 function myFunc(arg) {
     console.log(base64)
     req.write("--" + boundary + "\r\n");
+    req.write('Content-Disposition: form-data; name="crypt"\r\n\r\n');
+    req.write("123456")
+    req.write("\r\n")
+    req.write("--" + boundary + "\r\n");
+    req.write('Content-Disposition: form-data; name="ctx"\r\n\r\n');
+    req.write("abcd")
+    req.write("\r\n")
+    req.write("--" + boundary + "\r\n");
     req.write('Content-Disposition: form-data; name="file1"; filename="'+filename+'"\r\n');
     req.write("Content-Transfer-Encoding: base64\r\n");
     req.write(`Content-Type: ${mime}\r\n\r\n`);

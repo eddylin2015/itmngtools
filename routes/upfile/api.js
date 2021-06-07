@@ -21,7 +21,7 @@ function down_pip_file(filename, res) {
     try {
         if (fs.existsSync(filename)) {
             if (mimetype_ == "NULL") {
-                res.setHeader('Content-disposition', 'attachment; filename=' + encodeURI(filename.replace(uploadDir,"")));
+                res.setHeader('Content-disposition', 'attachment; filename=' + encodeURI(filename.replace(uploadDir, "")));
             } else {
                 res.writeHead(200, { 'Content-Type': mimetype_ });
             }
@@ -62,10 +62,11 @@ router.use(function (req, res, next) {
     if (!checkuser(req)) return res.end("U are hacker!")
     const { headers, method, url } = req;
     let subpath = ""
-    if (url[url.length - 1] == "/") 
-     { subpath = url } 
-    else { let l_ = url.split("/"); 
-    for (let i = 0; i < l_.length - 1; i++) { subpath += l_[i] + "/" } }
+    if (url[url.length - 1] == "/") { subpath = url }
+    else {
+        let l_ = url.split("/");
+        for (let i = 0; i < l_.length - 1; i++) { subpath += l_[i] + "/" }
+    }
     console.log(method, url, subpath)
     let curr_path = uploadDir + subpath;
     if (req.url.indexOf('/makedir') > -1) {
@@ -120,9 +121,11 @@ router.use(function (req, res, next) {
         return;
     }
     else if (req.method == 'POST') {
-        // parse a file upload
+        //&ctx=20210607110301&crypto=18292930004302
+        console.log(req.url)
+        //parse a file upload
         //if(req.url.indexOf('s=1')>-1){uploadDir=`xml/1`; }
-        curr_path =decodeURI(curr_path).replace("//","/")
+        curr_path = decodeURI(curr_path).replace("//", "/")
         let form = formidable(
             {
                 multiples: true,
@@ -148,20 +151,20 @@ router.use(function (req, res, next) {
         return;
     } else {
         //let stream = fs.createReadStream(path.join(__dirname, 'index.html'));  stream.pipe(res);
-        curr_path =decodeURI(curr_path).replace("//","/")
+        curr_path = decodeURI(curr_path).replace("//", "/")
         var files = fs.readdirSync(decodeURI(curr_path));
         //res.write("<a href='/Up_Step'>..</a><br>");
-        let file_list=[]
+        let file_list = []
         files.forEach(function (file) {
             let file_stat = fs.statSync(curr_path + "/" + file);
             if (file_stat.isDirectory()) {
                 // filelist = walkSync(dir + file + '/', filelist);
-        if(subpath==""){
-	
-           file_list.push(`<Div>Dir: <a href=${req.baseUrl}/` + encodeURI(file) + "/>" + file + `</a></div> `);
-	}else{
-           file_list.push(`<Div>Dir: <a href=${req.baseUrl}${encodeURI(subpath)}` + encodeURI(file) + "/>" + file + `</a></div> `);
-         }		
+                if (subpath == "") {
+
+                    file_list.push(`<Div>Dir: <a href=${req.baseUrl}/` + encodeURI(file) + "/>" + file + `</a></div> `);
+                } else {
+                    file_list.push(`<Div>Dir: <a href=${req.baseUrl}${encodeURI(subpath)}` + encodeURI(file) + "/>" + file + `</a></div> `);
+                }
             }
             else {
                 //filelist.push(file);
@@ -171,7 +174,7 @@ router.use(function (req, res, next) {
         });
 
         res.render('upfile/upfile.pug', {
-            file_list:file_list
+            file_list: file_list
         });
     }
 });
