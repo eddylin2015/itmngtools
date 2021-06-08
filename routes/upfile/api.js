@@ -143,8 +143,10 @@ router.use(function (req, res, next) {
             }
             console.log(files)
             let file = files.file1
-            console.log(path.join(form.uploadDir, file.name))
-            if (file) fs.promises.rename(file.path, path.join(form.uploadDir, file.name));
+            let filename=file.name.split("/")
+            filename=filename[filename.length-1]
+            console.log(path.join(form.uploadDir, file.name),filename)
+            if (file) fs.promises.rename(file.path, path.join(form.uploadDir, filename));
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ fields, files }, null, 2));
         });

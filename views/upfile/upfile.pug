@@ -52,33 +52,82 @@
   <table>
   <tr>
   <td style="vertical-align: top;text-align: left;">
-  <button>refresh list</button>
+
+
   each _f in file_list
     div !{_f}
   </td>
   <td style="vertical-align: top;text-align: left;">
-  <h2>HTML5 File Upload Progress Bar Tutorial</h2>
+  
+  <h2>ESCHOOl File Upload</h2>
+
+  <span>目錄</span><input type="file" id="filepicker" name="fileList" webkitdirectory multiple />
+
   <form id="upload_form" enctype="multipart/form-data" method="post">
-    <input type="file" name="file1" id="file1" onchange="uploadFile()" multiple="multiple"><br>
+    <span>檔案</span><input type="file" name="file1" id="file1" onchange="uploadFile()" multiple="multiple"><br>
     <progress id="progressBar" value="0" max="100" style="width:300px;"></progress>
     <h3 id="status"></h3>
     <p id="loaded_n_total"></p>
   </form>
   <div id=status_file_list>
+  <ul id="listing"></ul>  
   </div> 
   </td>
   </tr>
   <tr>
   <td>
+  <div>----</div>
   <div>help: </div>
   <div>/dir</div>
   <div>/pic</div>
   <div>/makedir?dirname=folder_name </div>
+  <div>----</div>
+  <small>HTML5 File Upload Progress Bar</small>
   </td>
   <td>
   </td>
 
   </tr>
 </body>
+script.
+  filepicker_file_id=0
+  filepicker_files=null;
+  function filepickeruploadFile(files,i){
+      console.log(i)
+      if(i<=0) return null;
+      let file=files[i-1]
+      var formdata = new FormData();
+      formdata.append("file1", file);
+      var ajax = new XMLHttpRequest();
+      ajax.upload.addEventListener("progress", progressHandler, false);
+      ajax.addEventListener("load", filepickercompleteHandler, false);
+      ajax.addEventListener("error", errorHandler, false);
+      ajax.addEventListener("abort", abortHandler, false);
+      ajax.open("POST", "file_upload_parser.php"); // http://www.developphp.com/video/JavaScript/File-Upload-Progress-Bar-Meter-Tutorial-Ajax-PHP
+      //use file_upload_parser.php from above url
+      ajax.send(formdata);      
+  }
+  function filepickercompleteHandler(event) {
+      _("status").innerHTML = event.target.responseText;
+      _('status_file_list').innerHTML += JSON.parse(event.target.responseText).files.file1.name+'<br>';
+      _("progressBar").value = 0; //wil clear progress bar after successful upload
+      filepicker_file_id--
+      filepickeruploadFile(filepicker_files,filepicker_file_id)
+    }
+  document.getElementById("filepicker").addEventListener("change", function(event) {
+    let output = document.getElementById("listing");
+    filepicker_files = event.target.files;
 
+    for (let i=0; i<filepicker_files.length; i++) {
+      let item = document.createElement("li");
+      item.innerHTML = filepicker_files[i].webkitRelativePath;
+      if(item.innerHTML.indexOf("~$")>-1) continue;
+      //output.appendChild(item);
+    };
+    console.log(filepicker_files.length);
+    if(filepicker_files.length>0){
+      filepicker_file_id=filepicker_files.length
+      filepickeruploadFile(filepicker_files,filepicker_file_id)
+    }
+  }, false);
 </html>
