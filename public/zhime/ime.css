@@ -1,0 +1,105 @@
+/*Downloaded from https://www.codeseek.co/canis/dayi-input-method-editor-ime-ngGvB */
+html {
+    height: 100%;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #434343;
+    background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#434343), to(#282828));
+    background-image:-webkit-linear-gradient(#434343, #282828);
+    background-image:-moz-linear-gradient(#434343, #282828);
+    background-image:-o-linear-gradient(#434343, #282828);
+    background-image:linear-gradient(#434343, #282828);
+      font-size:12pt;
+  }
+  a {
+    color:#FFF;
+  }
+  .title {
+    font-size:1.5em;
+    color:#888;
+    margin:0px;
+    padding-top:0px;
+    padding-left:50px;
+  }
+  div#imebody {
+      position:relative;
+    width:500px;
+      height:270px;
+    border:3px double #000;
+  }
+  div#imebody textarea, input{
+      font-size: 12pt;
+    font-family: \5FAE\8F6F\96C5\9ED1,\9ED1\4F53,Arial;
+  }
+  div#imebody #InputArea{
+      font-size:100%;
+      clear:left;
+      float:left;
+      background-color: #CCC;
+      overflow:auto;
+      border:0px;
+      margin-top:25px !important;
+      margin-left:20px !important;
+      width:290px !important;
+      height:220px !important;
+      margin-top:33px;
+      margin-left:28px;
+      width:290px;
+      height:210px;
+    line-height: 1.2em;
+      letter-spacing: 1.2px;
+    border-style:none;
+      resize: none;
+      outline:none;
+      -moz-appearance:none; /* firefox outline remove */
+      overflow: auto;
+  }
+  div#imebody #Comp {
+      font-size:100%;
+      float:left;
+      background-color: transparent;
+      border:1px brown solid;
+      padding: 0px 5px 0px 5px;
+      margin-top:25px !important;	margin-left:30px !important;	width:110px !important; height:20px !important;
+      margin-top:35px ;	margin-left:30px ;	width:102px;	height: 20px;
+  }
+  div#imebody #Cand {
+      font-size:70%;
+      float:left;
+      background-color: transparent;
+      border:1px brown dotted;
+      padding:5px;
+      overflow:auto;
+      margin-top:5px !important;	margin-left:30px !important;	width: 110px !important;	height: 182px !important;
+      margin-top:5px;	margin-left:30px;	width: 102px;	height: 190px;
+      resize: none;
+      outline:none;
+      -moz-appearance:none; /* firefox outline remove */
+      overflow: auto;
+  }
+  div#imebody #desc {
+      float:left;
+      width:19px;
+  }
+  div#imebody img.btn{
+      clear:left;
+      float:left;
+      width:19px;
+      height:19px;
+      margin-top:5px;
+      border:0px;
+      cursor:hand;
+  }
+  div#imebody .hotkey{
+    position:absolute;
+    right:0px;
+    top:0px;
+    margin-right:-110px;
+    font-size:12px;
+    line-height:2px;
+    color:#999;
+  }

@@ -14,11 +14,13 @@ app.disable('x-powered-by');
 app.disable('etag');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
 	res.redirect("/upfile/")
 });
 app.use(routes);
 app.use('/upfile', require('./routes/upfile/api'));
+app.use('/zhime', require('./routes/zhime/api'));
 
 //app.use(function (req, res) { WebRouter(req, res); });
  
