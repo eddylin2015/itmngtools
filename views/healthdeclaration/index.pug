@@ -24,11 +24,23 @@
         for(x in mimetype_obj){
           if(file.type==mimetype_obj[x]) flag=true 
         }
-        if(!flag && file.size< 2*1024*1024){
+        if(!flag && file.size > 2*1024*1024){
           _("status").innerHTML = "Upload Failed";
           return
         }
-
+        let curr_date=_("curr_date").value;
+        let classno=_("classno").value;
+        let seat=_("seat").value;
+        let bmonth=_("bmonth").value;
+        let bday=_("bday").value;
+        seat=(seat.length==1?"0":"")+seat;
+        bmonth=(bmonth.length==1?"0":"")+bmonth;
+        bday=(bday.length==1?"0":"")+bday;
+        let key=`${curr_date}${classno}${seat}${bmonth}${bday}`
+        try{
+        key=btoa(key);
+        }catch{
+        }
         var formdata = new FormData();
         formdata.append("curr_date", _("curr_date").value);
         formdata.append("classno", _("classno").value);
@@ -41,7 +53,7 @@
         ajax.addEventListener("load", completeHandler, false);
         ajax.addEventListener("error", errorHandler, false);
         ajax.addEventListener("abort", abortHandler, false);
-        ajax.open("POST", "up/file_upload_parser.php"); // http://www.developphp.com/video/JavaScript/File-Upload-Progress-Bar-Meter-Tutorial-Ajax-PHP
+        ajax.open("POST", `up/${key}`); // http://www.developphp.com/video/JavaScript/File-Upload-Progress-Bar-Meter-Tutorial-Ajax-PHP
         //use file_upload_parser.php from above url
         ajax.send(formdata);
       }
