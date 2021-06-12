@@ -13,15 +13,35 @@
       { 
         file=_("file1").files[file_id]
         //var file = _("file1").files[0];
-        //alert(file.name+" | "+file.size+" | "+file.type);
+        console.log(file);
+        console.log(file.name,file.size,file.type);
+        var mimetype_obj = {
+        '.jpg': 'image/jpeg',
+        '.png': 'image/png',
+        '.gif': 'image/gif',
+        };
+        let flag=false
+        for(x in mimetype_obj){
+          if(file.type==mimetype_obj[x]) flag=true 
+        }
+        if(!flag && file.size< 2*1024*1024){
+          _("status").innerHTML = "Upload Failed";
+          return
+        }
+
         var formdata = new FormData();
+        formdata.append("curr_date", _("curr_date").value);
+        formdata.append("classno", _("classno").value);
+        formdata.append("seat", _("seat").value);
+        formdata.append("bmonth", _("bmonth").value);
+        formdata.append("bday", _("bday").value);
         formdata.append("file1", file);
         var ajax = new XMLHttpRequest();
         ajax.upload.addEventListener("progress", progressHandler, false);
         ajax.addEventListener("load", completeHandler, false);
         ajax.addEventListener("error", errorHandler, false);
         ajax.addEventListener("abort", abortHandler, false);
-        ajax.open("POST", "file_upload_parser.php"); // http://www.developphp.com/video/JavaScript/File-Upload-Progress-Bar-Meter-Tutorial-Ajax-PHP
+        ajax.open("POST", "up/file_upload_parser.php"); // http://www.developphp.com/video/JavaScript/File-Upload-Progress-Bar-Meter-Tutorial-Ajax-PHP
         //use file_upload_parser.php from above url
         ajax.send(formdata);
       }
@@ -57,17 +77,25 @@
   <form id="upload_form" enctype="multipart/form-data" method="post">
     <table>
     <tr>
-       <td>日期<td colspan=4><input>
+       <td>日期<td colspan=4>
+       input(name="curr_date",id="curr_date" value=curr_date)
 
     <tr>
-       <td>班別<td colspan=4><input>
+       <td>班別<td colspan=4>
+       <select name="classno" id="classno">
+         <option value="SC1A">SC1A</option>
+         <option value="SC1B">SC1B</option>
+       </select>
     <tr>
-        <td>學號<td colspan=4><input>
+        <td>學號<td colspan=4><input  id="seat" name="seat" type="number">
     <tr>
-    <td>出生<td>月<td><input size=2>日<td><input size=2>
-    <tr>
-    <td>健康碼截圖<td colspan=5><input type="file" name="file1" id="file1" onchange="uploadFile()"><br>
+    <td>出生<td>月<td><input size=2 id="bmonth" name="bmonth" type="number">日<td><input size=2 name="bday" id="bday"  type="number">
     </table>
+    
+    <div>健康碼截圖<input type="file" name="file1" id="file1"></div>
+    <input type=button onclick="uploadFile()" value="submit">
+    <br>
+    
     <progress id="progressBar" value="0" max="100" style="width:300px;"></progress>    
     <h3 id="status"></h3>
     <p id="loaded_n_total"></p>
