@@ -1,6 +1,7 @@
 logs/
 logs_ex/
 photos/
+img/
 node_modules/
 # Logs
 logs
