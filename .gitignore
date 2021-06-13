@@ -2,6 +2,7 @@ logs/
 logs_ex/
 photos/
 img/
+capcha/
 node_modules/
 # Logs
 logs

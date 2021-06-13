@@ -8,7 +8,8 @@ const url_utils = require('url');
 const config = require('../../ES_WatchGuard_Config')
 var router = express.Router();
 const uploadDir = config.HealthDeclarationDir
-
+const capchaDir = "capcha/"
+const stud_list=["SC1A050505","SC1A060606","SC1A070707","SC1A080808"]
 function mimetype(filename) {
     var dotoffset = filename.lastIndexOf('.');
     if (dotoffset == -1)
@@ -30,13 +31,22 @@ function mimetype(filename) {
     }
     return "NULL";
 };
+function base64_encode(file) {
+    let bitmap = fs.readFileSync(file);
 
+    return Buffer.from(bitmap, 'binary').toString('base64');
+}
 router.get('/', (req, res, next) => {
     let today = new Date()
     //console.log(today.toISOString().substring(0,10))
+    let key=Math.floor(Math.random() * 100)+100; if (key>999) key=key-100
+    let SID=(key*71).toString()
+    let capcha=base64_encode(`${capchaDir}${key}.gif`)
     res.render('healthdeclaration/index.pug', {
         curr_date: today.toISOString().substring(0,10),
         profile: req.user,
+        SID:SID,
+        capcha:"data:image/gif;base64,"+capcha
     });
 });
 /* GET home page. */
@@ -44,6 +54,11 @@ router.use('/up/:book',function (req, res, next) {
     let today = new Date()
     try{
         let query_key=req.params.book
+        let SID=req.query.SID;
+        let capcha=req.query.capcha;
+        if((Number(SID)%Number(capcha))>0){
+            return res.end('驗証有誤!')
+        }
         try{
         let buff = new Buffer.from(req.params.book, 'base64');
         query_key=buff.toString('ascii')
@@ -105,7 +120,7 @@ router.use('/up/:book',function (req, res, next) {
                         bmonth=(bmonth.length==1?"0":"")+bmonth;
                         bday=(bday.length==1?"0":"")+bday;
                         let key=`${classno}${seat}${bmonth}${bday}`
-                        if(key!="SC1A050505")
+                        if(stud_list.indexOf(key)==-1)
                         {
                             part_err='學生資料有誤!'
                         }

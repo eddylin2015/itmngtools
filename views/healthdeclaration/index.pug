@@ -33,6 +33,9 @@
         let seat=_("seat").value;
         let bmonth=_("bmonth").value;
         let bday=_("bday").value;
+        let capcha=_("capcha").value;
+        if(capcha.length!=3) {_("status").innerHTML = "驗証碼有誤!";return}
+        let SID=_("SID").value;
         seat=(seat.length==1?"0":"")+seat;
         bmonth=(bmonth.length==1?"0":"")+bmonth;
         bday=(bday.length==1?"0":"")+bday;
@@ -41,6 +44,7 @@
         key=btoa(key);
         }catch{
         }
+        key=key+`?SID=${SID}&capcha=${capcha}`
         var formdata = new FormData();
         formdata.append("curr_date", _("curr_date").value);
         formdata.append("classno", _("classno").value);
@@ -48,6 +52,7 @@
         formdata.append("bmonth", _("bmonth").value);
         formdata.append("bday", _("bday").value);
         formdata.append("file1", file);
+
         var ajax = new XMLHttpRequest();
         ajax.upload.addEventListener("progress", progressHandler, false);
         ajax.addEventListener("load", completeHandler, false);
@@ -87,6 +92,8 @@
   <td style="vertical-align: top;text-align: left;">
   <h2>上載健康碼截圖</h2>
   <form id="upload_form" enctype="multipart/form-data" method="post">
+    input(type="hidden", id="SID", value=SID)
+    
     <table>
     <tr>
        <td>日期<td colspan=4>
@@ -99,12 +106,16 @@
          <option value="SC1B">SC1B</option>
        </select>
     <tr>
-        <td>學號<td colspan=4><input  id="seat" name="seat" type="number">
+        <td>學號<td colspan=4><input  id="seat" style="width:80px"  name="seat" type="number">
     <tr>
-    <td>出生<td>月<td><input size=2 id="bmonth" name="bmonth" type="number">日<td><input size=2 name="bday" id="bday"  type="number">
+    <td>出生<td>月<td><input style="width:60px" id="bmonth" name="bmonth" type="number">日<td><input style="width:60px" name="bday" id="bday"  type="number">
     </table>
     
     <div>健康碼截圖<input type="file" name="file1" id="file1"></div>
+    span 驗証碼
+    input#capcha
+    img(src=capcha)
+    <br>
     <input type=button onclick="uploadFile()" value="submit">
     <br>
     
