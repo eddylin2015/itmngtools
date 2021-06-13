@@ -1,5 +1,8 @@
 <html>
 <head>
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
   script.
     function _(el) {
       return document.getElementById(el);
@@ -84,39 +87,40 @@
       _("status").innerHTML = "Upload Aborted";
     }
 </head>
-
 <body>
-  <table>
-  <tr>
-  <td style="vertical-align: top;text-align: left;">
-  <td style="vertical-align: top;text-align: left;">
-  <h2>上載健康碼截圖</h2>
+  <h2>上載健康碼圖片</h2>
   <form id="upload_form" enctype="multipart/form-data" method="post">
     input(type="hidden", id="SID", value=SID)
     
-    <table>
-    <tr>
-       <td>日期<td colspan=4>
-       input(name="curr_date",id="curr_date" value=curr_date)
-
-    <tr>
-       <td>班別<td colspan=4>
-       <select name="classno" id="classno">
-         <option value="SC1A">SC1A</option>
-         <option value="SC1B">SC1B</option>
-       </select>
-    <tr>
-        <td>學號<td colspan=4><input  id="seat" style="width:80px"  name="seat" type="number">
-    <tr>
-    <td>出生<td>月<td><input style="width:60px" id="bmonth" name="bmonth" type="number">日<td><input style="width:60px" name="bday" id="bday"  type="number">
-    </table>
+    span 日期
+    input(name="curr_date",id="curr_date" value=curr_date)
+    br
+    br
+    span 班別
+    <select name="classno" id="classno">
+      <option value="SC1A">SC1A</option>
+      <option value="SC1B">SC1B</option>
+    </select>
+    span 學號
+    <input  id="seat" style="width:80px"  name="seat" type="number">
+    br
+    br
+    span 出生
+    <input style="width:60px" id="bmonth" name="bmonth" type="number">月<td><input style="width:60px" name="bday" id="bday"  type="number">日
+    br
+    br
     
-    <div>健康碼截圖<input type="file" name="file1" id="file1"></div>
+    span 健康碼截圖
+    <input type="file" name="file1" id="file1">
+    br
+    br
     span 驗証碼
-    input#capcha
+    input#capcha(style="width:120px", type="number")
     img(src=capcha)
     <br>
-    <input type=button onclick="uploadFile()" value="submit">
+    <br>
+    <input type=button onclick="uploadFile()" value="提交">
+    <br>
     <br>
     
     <progress id="progressBar" value="0" max="100" style="width:300px;"></progress>    
@@ -125,13 +129,5 @@
   </form>
   <div id=status_file_list>
   </div> 
-  </td>
-  </tr>
-  <tr>
-  <td>
-  </td>
-  <td>
-  </td>
-  </tr>
 </body>
 </html>
