@@ -45,7 +45,7 @@
         let key=`${curr_date}${classno}${seat}${bmonth}${bday}`
         try{
         key=btoa(key);
-        }catch{
+        }catch(exp){
         }
         key=key+`?SID=${SID}&capcha=${capcha}`
         var formdata = new FormData();

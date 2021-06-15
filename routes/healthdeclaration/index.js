@@ -39,7 +39,7 @@ function base64_encode(file) {
 router.get('/', (req, res, next) => {
     let today = new Date()
     //console.log(today.toISOString().substring(0,10))
-    let key=Math.floor(Math.random() * 100)+100; if (key>999) key=key-100
+    let key=Math.floor(Math.random() * 500)+100; if (key>999) key=key-100
     let SID=(key*71).toString()
     let capcha=base64_encode(`${capchaDir}${key}.gif`)
     res.render('healthdeclaration/index.pug', {
